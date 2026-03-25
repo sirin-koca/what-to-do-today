@@ -14,10 +14,10 @@ function App() {
   
     { id: 1, title: "Work on My VITE/React Project", completed: false },
     { id: 2, title: "Complete the Part 3: Unit Testing og IN4240 ASN1"},
-    { id: 5, title: "Group meeting tomorrow: Kl.12 @ SIMULA"},
-    { id: 3, title: "Walk with Maya `♡´"},
-    { id: 4, title: "Shopping & cooking"},
-    { id: 5, title: "Cleaning"},
+    { id: 3, title: "Group meeting tomorrow: Kl.12 @ SIMULA"},
+    { id: 4, title: "Walk with Maya `♡´"},
+    { id: 5, title: "Shopping & cooking"},
+    { id: 6, title: "Cleaning"},
 ])
 
 const toggleTask = (id) => {
