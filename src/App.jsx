@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -7,10 +7,49 @@ import './App.css'
 {/* comment */}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useState(() => {
+  const savedTasks = localStorage.getItem('tasks')
+  return savedTasks
+    ? JSON.parse(savedTasks)
+    : []
+})
 
-  const [tasks, setTasks] = useState([
-    /*   { id: 1, title: "Study React", completed: false }, */
+const [newTask, setNewTask] = useState('')
+  
+useEffect(() => {
+  localStorage.setItem('tasks', JSON.stringify(tasks))
+}, [tasks])
+
+const addTask = () => {
+  if (newTask.trim() === '') return
+
+  const task = {
+    id: Date.now(),
+    title: newTask,
+    completed: false,
+  }
+
+  setTasks([...tasks, task])
+  setNewTask('')
+}
+
+const toggleTask = (id) => {
+  setTasks(
+    tasks.map((task) =>
+      task.id === id
+        ? { ...task, completed: !task.completed }
+        : task
+    )
+  )
+}
+
+const deleteTask = (id) => {
+  setTasks(tasks.filter((task) => task.id !== id))
+}
+
+
+
+    {/*   { id: 1, title: "Study React", completed: false }, 
   
     { id: 1, title: "Work on My VITE/React Project", completed: false },
     { id: 2, title: "Complete Part3:Unit Testing IN4240-ASN1-deadline⚡"},
@@ -20,12 +59,7 @@ function App() {
     { id: 6, title: "Prepare for the SINTEF-meeting"},
     { id: 7, title: "Cleaning"},
 ])
-
-const toggleTask = (id) => {
-  setTasks(tasks.map(t =>
-    t.id === id ? { ...t, completed: !t.completed } : t
-  ))
-}
+*/}
 
   return (
     <>
@@ -55,35 +89,45 @@ const toggleTask = (id) => {
 
       {/* TO-DO LIST STARTS HERE */}
 <section id="todo">
+  <h2>My Tasks</h2>
 
-  {tasks.map(task => (
-    <div
-      key={task.id}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
-        padding: "12px",
-        margin: "10px auto",
-        maxWidth: "500px",
-        borderRadius: "10px",
-        background: task.completed ? "#e6f7ec" : "#ffffff",
-        border: "1px solid #ddd"
+  <div className="todo-input-row">
+    <input
+      type="text"
+      placeholder="Add a new task..."
+      value={newTask}
+      onChange={(e) => setNewTask(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') addTask()
       }}
-    >
-      <input
-        type="checkbox"
-        checked={task.completed}
-        onChange={() => toggleTask(task.id)}
-      />
-      <span style={{
-        textDecoration: task.completed ? "line-through" : "none",
-        fontWeight: 500
-      }}>
-        {task.title}
-      </span>
-    </div>
-  ))}
+    />
+    <button onClick={addTask}>Add</button>
+  </div>
+
+  {tasks.length === 0 ? (
+    <p>No tasks yet.</p>
+  ) : (
+    tasks.map((task) => (
+      <div key={task.id} className="task-card">
+        <input
+          type="checkbox"
+          checked={task.completed}
+          onChange={() => toggleTask(task.id)}
+        />
+
+        <span className={task.completed ? 'done' : ''}>
+          {task.title}
+        </span>
+
+        <button
+          className="delete-btn"
+          onClick={() => deleteTask(task.id)}
+        >
+          Delete
+        </button>
+      </div>
+    ))
+  )}
 </section>
 
       <div className="todo-container">
