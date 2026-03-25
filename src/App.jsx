@@ -13,11 +13,12 @@ function App() {
     /*   { id: 1, title: "Study React", completed: false }, */
   
     { id: 1, title: "Work on My VITE/React Project", completed: false },
-    { id: 2, title: "Complete the Part 3: Unit Testing og IN4240 ASN1"},
+    { id: 2, title: "Complete the Part 3: Unit Testing og IN4240 ASN1 - deadline⚡"},
     { id: 3, title: "Group meeting tomorrow: Kl.12 @ SIMULA"},
     { id: 4, title: "Walk with Maya `♡´"},
     { id: 5, title: "Shopping & cooking"},
-    { id: 6, title: "Cleaning"},
+    { id: 6, title: "Prepare for the SINTEF-meeting"},
+    { id: 7, title: "Cleaning"},
 ])
 
 const toggleTask = (id) => {
